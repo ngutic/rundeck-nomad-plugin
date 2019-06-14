@@ -3,6 +3,7 @@ package io.github.valfadeev.rundeck.plugin.nomad.nomad;
 import com.dtolabs.rundeck.core.plugins.configuration.StringRenderingConstants;
 import com.dtolabs.rundeck.plugins.util.DescriptionBuilder;
 import com.dtolabs.rundeck.plugins.util.PropertyBuilder;
+import com.dtolabs.rundeck.core.storage.ResourceMeta;
 import io.github.valfadeev.rundeck.plugin.nomad.common.PropertyComposer;
 
 import static io.github.valfadeev.rundeck.plugin.nomad.nomad.NomadConfigOptions.*;
@@ -17,6 +18,27 @@ public class NomadPropertyComposer extends PropertyComposer {
                         .title("Nomad agent URL")
                         .description("URL of the Nomad agent to submit job (including url scheme and port)")
                         .required(true)
+                        .build()
+                )
+                .property(PropertyBuilder.builder()
+                        .string(ACL_TOKEN)
+                        .title("Select Nomad ACL token")
+                        .description("Authentication token for cluster access.")
+                        .required(false)
+                        .renderingOption(StringRenderingConstants.SELECTION_ACCESSOR_KEY,
+                            StringRenderingConstants.SelectionAccessor.STORAGE_PATH)
+                        .renderingOption(StringRenderingConstants.STORAGE_PATH_ROOT_KEY, "keys")
+                        .renderingOption(StringRenderingConstants.STORAGE_FILE_META_FILTER_KEY, "Rundeck-data-type=password")
+                        .defaultValue("")
+                        .build()
+                )
+
+                .property(PropertyBuilder.builder()
+                        .string(NOMAD_TOKEN)
+                        .title("Nomad ACL token")
+                        .description("Authentication token for cluster access.")
+                        .required(false)
+                        .defaultValue("")
                         .build()
                 )
                 .property(PropertyBuilder.builder()

@@ -93,7 +93,9 @@ public abstract class NomadStepPlugin implements StepPlugin, Describable {
         Map<String, String> rundeckJob = context.getDataContextObject().get("job");
         String rundeckJobId = String.format("%s-%s",rundeckJob.get("id"), ts);
         String rundeckJobName = String.format("%s-%s", rundeckJob.get("name"), ts);
-
+        String nomadAcl = configuration
+                .get(NomadConfigOptions.ACL_TOKEN)
+                .toString();
         String nomadUrl = configuration
                 .get(NomadConfigOptions.NOMAD_URL)
                 .toString();
@@ -101,6 +103,7 @@ public abstract class NomadStepPlugin implements StepPlugin, Describable {
                 new NomadApiConfiguration
                         .Builder()
                         .setAddress(nomadUrl)
+                        .setAuthToken(nomadAcl)
                         .build();
         NomadApiClient apiClient = new NomadApiClient(config);
 
